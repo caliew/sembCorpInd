@@ -37,10 +37,12 @@ const weatherSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchWeatherData.fulfilled, (state, action) => {
+                console.log('..LOADING SUCCESS..')
                 state.data = action.payload;
                 state.status = 'succeeded'
             })
             .addCase(fetchWeatherData.rejected, (state,action) => {
+                console.log('..LOADING FAILED..')
                 let _oldData = loadLocalData();
                 state.status = 'failed';
                 if (_oldData) state.data = _oldData;
