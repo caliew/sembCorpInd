@@ -1,0 +1,33 @@
+step 1 npm init @vitejs/app xxxx
+step 2 npm i @reduxjs/toolkit react-redux axios
+
+npm install --save mdbreact
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+.. BEFORE APP.JS
+
+INSTALL REACT-IDLE-TIMER LIBRARY
+npm install react-idle-timer
+
+.. TRANSLATOR
+npm install react-i18next i18next --save
+# if you'd like to detect user language and load translation
+npm install i18next-http-backend i18next-browser-languagedetector --save
+
+.. INSTALL LARGE SCREEN DISPLAY
+$ npm install @jiaminghi/data-view-react
+
+.. INSTALL THE DYNAMIC STLESHEET LANGUAGE 
+.. https://lesscss.org/
+npm install less -d
+
+
+.. DEPLOY STATIC SERVER
+serve -p 3000 -s dist
+
+// MOMENT FOR DATE MANIPULATION
+npm install moment
+
+modify tsconfig.json to resolve The TypeScript error TS1261
+to include dist in github

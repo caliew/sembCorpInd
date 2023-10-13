@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["react","redux"],
+    "jsx": "react-jsx",  
+    "noImplicitAny": true
+  },  
+  "include": [
+    "D:/repos/_vitejs/teawarehouse/src/components/visualization/Jiaminghi-data-view-react.d.ts",
+    "D:/repos/_vitejs/teawarehouse/src/components/Warehouse/data-ui-theme.d.ts",
+    "D:/repos/_vitejs/teawarehouse/src/components/Warehouse/data-ui-sparkline.d.ts",
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

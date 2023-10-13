@@ -1,0 +1,59 @@
+.SembCorpPage {
+  width: 80%;
+  padding: 5px;
+  margin-top: 25px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  margin: auto;
+}
+
+/* Default font size for all screen sizes */
+.custom-container {
+  font-size: 16px;
+}
+.row {
+  justify-content: center;
+}
+/* Adjust font size for small screens (up to 768px) */
+@media (max-width: 768px) {
+  .custom-container {
+    font-size: 14px;
+    color: black;
+    line-height: 0.50rem;
+    margin-top: 10%;
+  }
+  .echart {
+    border: 1px solid black;
+    width:90%
+  }
+}
+
+/* Adjust font size for medium screens (769px - 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .custom-container {
+    font-size: 16px;
+    color: red;
+    line-height: 1.0rem;
+    margin-top: 7%;
+  }
+  .echart {    
+    border: 5px solid red;
+    width:60%
+  }
+}
+
+/* Adjust font size for large screens (993px and above) */
+@media (min-width: 993px) {
+  .custom-container {
+    font-size: 24px;
+    color: blue;
+    line-height: 1.0rem;
+    margin-top: 5%;
+  }
+  .echart {
+    border: 15px solid green;
+    width:45%
+  }
+}
