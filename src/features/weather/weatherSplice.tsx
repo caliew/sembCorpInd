@@ -4,12 +4,12 @@ import axios from "axios";
 const IOT_URL = 'https://api.open-meteo.com/v1/forecast?latitude=1.29&longitude=103.85&hourly=relativehumidity_2m,direct_radiation&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FSingapore&start_date=2023-10-01&end_date=2023-10-10'
 
 interface AppState {
-    data: any[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed' | 'completed' | 'pending' | 'update';
+    data: any;
+    status: 'idle' | 'loading' | 'succeeded' | 'failed' | 'completed' | 'pending' | 'update' | 'failed';
     error: null | Error;
 }
 const initialState : AppState = {
-    data: [],
+    data: null,
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null
 }
@@ -18,8 +18,6 @@ export const fetchWeatherData  = createAsyncThunk('weather/fetchWeatherData', as
     const response:any = axios.get(IOT_URL);
     let _result = (await response).data;
     if (_result) {
-        console.log('..FETCH DATA SUCCESSFULL.. STORE LOCAL STORAGE..')
-        console.log(_result);
         localStorage.setItem('weatherData', JSON.stringify(_result));
     } 
     return _result;
@@ -43,10 +41,8 @@ const weatherSlice = createSlice({
                 state.status = 'succeeded'
             })
             .addCase(fetchWeatherData.rejected, (state,action) => {
-                console.log('...FETCH WEATHER DATA... REJECTED...')
-                console.log('..TO RETREIVE...')
                 let _oldData = loadLocalData();
-                state.status = 'succeeded';
+                state.status = 'failed';
                 if (_oldData) state.data = _oldData;
             })
     }

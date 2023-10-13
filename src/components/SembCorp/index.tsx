@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MDBContainer, Row, Col } from 'mdb-react-ui-kit';
+import { MDBContainer } from 'mdb-react-ui-kit';
 import { useSelector } from 'react-redux';
 import { fetchWeatherData,getLoadingStatus,getWeatherData } from '../../features/weather/weatherSplice';
 import { store } from '../../app/store';
@@ -8,7 +8,7 @@ import './index.css'
 
 const SembCorpPage = () => {
   // ------------
-  const [plotData,setPlotData] = useState({});
+  const [plotData,setPlotData] = useState(null);
   // ------------
   let startedHandlerTimer = false;  
   let weatherData = useSelector(getWeatherData);
@@ -24,12 +24,14 @@ const SembCorpPage = () => {
     }
   },[]);
   useEffect(()=>{
-    weatherData?.daily && (
+    console.log('..USE EFFECT..WEATHERDATA',weatherData);
+    if(weatherData?.daily) {
+      console.log('....WEATHERDARTA VALID... ? ', weatherData.daily);
       setPlotData({
         DAYData: {unit:weatherData['daily_units'],data:weatherData['daily']},
         HOURData: {unit:weatherData['hourly_units'],data:weatherData['hourly']}
       })
-    )
+    }
   },[weatherData])
   // --------------------
   function handlerTimer() {
@@ -63,12 +65,14 @@ const SembCorpPage = () => {
     // ----------------
     // POPULATE DATASET
     // ----------------
+    console.log('..getDAYDataSeries...',plotData)
     let DAYDataKeys = plotData?.DAYData ? Object.keys(plotData['DAYData']['unit']) : null;
     let DAYDataTime = plotData?.DAYData ? plotData['DAYData']['data']['time'] : null;
     let variable1 = DAYDataKeys?.[1];
     let variable2 = DAYDataKeys?.[2];
     let tempMAXData = plotData?.DAYData?.data?.[variable1];
     let tempMINData = plotData?.DAYData?.data?.[variable2];
+    console.log(plotData,DAYDataKeys,variable1,variable2);
     // -----------
     DAYDataTime && DAYDataTime.map((objDateTime: any, index: any) => {
       let _DATETIME:any = new Date(objDateTime)
@@ -86,6 +90,7 @@ const SembCorpPage = () => {
     _SeriesData.push(_object1);
     _SeriesData.push(_object2);
     _legendData.push(variable1,variable2);
+    console.log('... push SeriesData & LegendData..')
     // --------------
     return { legendData:_legendData ,categoryData, valueData:_SeriesData}
   }
@@ -126,6 +131,7 @@ const SembCorpPage = () => {
   // ------------------
   const getChartTEMP = () => {
     // ----------------
+    console.log('..getChartTEMP...')
     let _SeriesData:any = getDAYDataSeries();
     // ----------
     return ({
@@ -200,7 +206,7 @@ const SembCorpPage = () => {
             { getStatus() }
           </div>
 
-            { loadingStatus === 'succeeded' && (
+            {  plotData && loadingStatus === 'succeeded' && weatherData?.daily && (
               <div className="row">
                 <div className='echart'><ReactECharts option={getChartTEMP()} style={{margin:"auto",width:'100%',height:'300px',paddingBottom:'10px'}} /></div>
                 <div className='echart'><ReactECharts option={getChartRH()} style={{margin:"auto",width:'100%',height:'300px',paddingBottom:'10px'}} /></div>
