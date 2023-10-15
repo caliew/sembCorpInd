@@ -6,9 +6,19 @@ import { store } from '../../app/store';
 import ReactECharts from 'echarts-for-react';
 import './index.css'
 
+type plotDataType = {
+  DAYData: {
+    unit: any;
+    data: any;
+  };
+  HOURData: {
+    unit: any;
+    data: any;
+  };
+};
 const SembCorpPage = () => {
   // ------------
-  const [plotData,setPlotData] = useState(null);
+  const [plotData,setPlotData] = useState<plotDataType|null>(null);
   // ------------
   let startedHandlerTimer = false;  
   let weatherData = useSelector(getWeatherData);
@@ -67,10 +77,10 @@ const SembCorpPage = () => {
     // ----------------
     let DAYDataKeys = plotData?.DAYData ? Object.keys(plotData['DAYData']['unit']) : null;
     let DAYDataTime = plotData?.DAYData ? plotData['DAYData']['data']['time'] : null;
-    let variable1 = DAYDataKeys?.[1];
-    let variable2 = DAYDataKeys?.[2];
-    let tempMAXData = plotData?.DAYData?.data?.[variable1];
-    let tempMINData = plotData?.DAYData?.data?.[variable2];
+    let variable1 = DAYDataKeys?.[1] ?? null;
+    let variable2 = DAYDataKeys?.[2] ?? null;
+    let tempMAXData = plotData && plotData.DAYData && plotData.DAYData.data? plotData.DAYData.data?.[variable1 ?? ''] : undefined;
+    let tempMINData = plotData && plotData.DAYData && plotData.DAYData.data? plotData.DAYData.data?.[variable2 ?? ''] : undefined;
     // -----------
     DAYDataTime && DAYDataTime.map((objDateTime: any, index: any) => {
       let _DATETIME:any = new Date(objDateTime)
@@ -103,25 +113,23 @@ const SembCorpPage = () => {
     // ----------------
     let HOURDataKeys = plotData?.HOURData ? Object.keys(plotData['HOURData']['unit']) : null;
     let HOURDataTime = plotData?.HOURData ? plotData['HOURData']['data']['time'] : null;
-    let variable1 = HOURDataKeys?.[nPlot];
-    let variable2 = HOURDataKeys?.[2];
-    let relativeHumidityData = plotData?.HOURData?.data?.[variable1];
-    let directRadiationData = plotData?.HOURData?.data?.[variable2];
+    let variable = HOURDataKeys?.[nPlot] ?? null;
+    let echartPlotData = plotData?.HOURData?.data?.[variable ?? ''] ?? undefined;
     // -----------
     HOURDataTime && HOURDataTime.map((objDateTime: any, index: any) => {
       let _DATETIME:any = new Date(objDateTime)
-      _rslt1.push([_DATETIME,relativeHumidityData[index]]);
+      _rslt1.push([_DATETIME,echartPlotData[index]]);
     });
     // -------------------------
     let _object1;
     _object1 = { 
-      name : variable1,type : nPlot == 1 ? 'bar' : 'line',
+      name : variable,type : nPlot == 1 ? 'bar' : 'line',
       areaStyle: nPlot == 1 ? null : {color:'yellow'},
       smooth: false,
       symbol: 'none',data : _rslt1,duration: 100,
     }
     _SeriesData.push(_object1);
-    _legendData.push(variable1);
+    _legendData.push(variable);
     // ------------
     return { legendData:_legendData ,categoryData, valueData:_SeriesData}
   }
